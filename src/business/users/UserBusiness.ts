@@ -1,11 +1,13 @@
 import { UserDatabase } from "../../database/UserDatabase";
 import { GetUsersInputDTO, GetUsersOutputDTO } from "../../dtos/users/getUsers.dto";
+import { LoginInputDTO, LoginOutputDTO } from "../../dtos/users/login.dto";
 import { SignupInputDTO, SignupOutputDTO } from "../../dtos/users/signup.dto";
 import { BadRequestError } from "../../errors/BadRequestError";
+import { NotFoundError } from "../../errors/NotFoundError";
 import { USER_ROLES, User } from "../../models/User";
 import { HashManager } from "../../services/HashManager";
 import { IdGenerator } from "../../services/IdGenerator";
-import { TokenManager } from "../../services/TokenManager";
+import { TokenManager, TokenPayload } from "../../services/TokenManager";
 
 export class UserBusiness{
     constructor(
@@ -74,6 +76,45 @@ export class UserBusiness{
         );
 
         const output: SignupOutputDTO = {
+            token: token
+        };
+
+        return output
+    }
+
+    public login =async (input:LoginInputDTO):Promise<LoginOutputDTO> => {
+        const { email, password } = input;
+
+        const [checkUserDB] = await this.userDatabase.findEmail(email);
+
+        if(!checkUserDB){
+            throw new NotFoundError('email or password not valid')
+        };
+
+        const isPasswordValid = await this.hashManager.compare(password, checkUserDB.password);
+
+        if(!isPasswordValid){
+            throw new BadRequestError('email or password not valid')
+        };
+
+        const user = new User(
+            checkUserDB.id,
+            checkUserDB.name,
+            checkUserDB.email,
+            checkUserDB.password,
+            checkUserDB.user_role,
+            checkUserDB.created_at,
+        );
+
+        const payload:TokenPayload = {
+            id: user.getId(),
+            role: user.getRole(),
+            name: user.getName()
+        };
+
+        const token = this.tokenManager.createToken(payload);
+
+        const output:LoginOutputDTO = {
             token: token
         };
 
