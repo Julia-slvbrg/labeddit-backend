@@ -25,7 +25,7 @@ export class User{
     public getPassword():string{
         return this.password
     };
-    public getRole():string{
+    public getRole():USER_ROLES{
         return this.role
     };
     public getCreatedAt():string{

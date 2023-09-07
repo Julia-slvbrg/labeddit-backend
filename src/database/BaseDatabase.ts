@@ -4,6 +4,7 @@ import dotenv from "dotenv"
 dotenv.config()
 
 export abstract class BaseDatabase{
+
     protected static connection = knex({
         client: "sqlite3",
         connection: {
@@ -17,5 +18,11 @@ export abstract class BaseDatabase{
                 conn.run("PRAGMA foreign_keys = ON", cb)
             }
         }
-    })
+    });
+
+    abstract TABLE_NAME: string;
+
+    protected async findAll():Promise<any>{
+        return await BaseDatabase.connection(this.TABLE_NAME)
+    };
 }
