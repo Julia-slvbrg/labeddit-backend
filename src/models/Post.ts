@@ -64,4 +64,16 @@ export interface PostDB{
     dislikes: number,
     created_at: string,
     updated_at:string
+};
+
+export interface GetPostDB{
+    id: string,
+    content: string,
+    likes: number,
+    dislikes: number,
+    createdAt: string,
+    updatedAt: string,
+    creatorId: string,
+    creatorName: string
 }
+

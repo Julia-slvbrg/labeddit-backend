@@ -1,5 +1,5 @@
 import express from "express";
-import { UserDatabase } from "../database/UserDatabase";
+import { UserDatabase } from "../database/users/UserDatabase";
 import { UserBusiness } from "../business/users/UserBusiness";
 import { UserController } from "../controller/users/UserController";
 import { TokenManager } from "../services/TokenManager";
