@@ -18,7 +18,7 @@ export class LikesDislikes{
         this.like = like
     };
 
-    public likeDislikeToDBModel():LikesDislikesDB{
+    public likeDislikeToDBModel(){
         return{
             user_id: this.userId,
             post_id: this.postId,
