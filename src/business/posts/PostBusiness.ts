@@ -1,10 +1,13 @@
+import { LikesDislikesDatabase } from "../../database/likesDislikes/LikesDislikesDatabase";
 import { PostDatabase } from "../../database/posts/PostDatabase";
 import { CreatePostInputDTO, CreatePostOutputDTO } from "../../dtos/posts/createPost.dto";
 import { DeletePostInputDTO } from "../../dtos/posts/deletePost.dto";
 import { GetPostsInputDTO, GetPostsOutputDTO } from "../../dtos/posts/getPosts.dto";
+import { LikeDislikePostInputDTO } from "../../dtos/posts/likeDislikePost.dto";
 import { UpdatePostInputDTO, UpdatePostOutputDTO } from "../../dtos/posts/updatePost.dto";
 import { BadRequestError } from "../../errors/BadRequestError";
 import { NotFoundError } from "../../errors/NotFoundError";
+import { LikesDislikes, LikesDislikesCountDB, LikesDislikesDB } from "../../models/LikesDislikes";
 import { GetPostDB, Post, PostDB } from "../../models/Post";
 import { USER_ROLES } from "../../models/User";
 import { IdGenerator } from "../../services/IdGenerator";
@@ -13,6 +16,7 @@ import { TokenManager } from "../../services/TokenManager";
 export class PostBusiness{
     constructor(
         private postDatabase: PostDatabase,
+        private likesDislikesDatabase: LikesDislikesDatabase,
         private tokenManager: TokenManager,
         private idGenerator: IdGenerator
     ){}
@@ -135,5 +139,129 @@ export class PostBusiness{
         };
 
         await this.postDatabase.deletePost(id)
+    };
+
+    public likeDislikePost = async (input:LikeDislikePostInputDTO) => {
+        const { id, like, token } = input;
+
+        const payload = this.tokenManager.getPayload(token);
+
+        if(!payload){
+            throw new BadRequestError('Invalid token.')
+        };
+
+        const checkPostDB:PostDB = await this.postDatabase.getPostById(id);
+
+        if(!checkPostDB){
+            throw new NotFoundError('Post not found.')
+        };
+
+        const postDB = new Post(
+            checkPostDB.id,
+            checkPostDB.creator_id,
+            checkPostDB.content,
+            checkPostDB.likes,
+            checkPostDB.dislikes,
+            checkPostDB.created_at,
+            checkPostDB.updated_at
+        );
+
+        const currentLikeCount = postDB.getLikes();
+        const currentDislikeCount = postDB.getDislikes();
+
+        const [checkLikeDislike] = await this.likesDislikesDatabase.getLike(payload.id, id);
+
+        if(!checkLikeDislike){
+            //criando a interação na tabela
+
+            const newLikeDislike = new LikesDislikes(
+                payload.id,
+                id,
+                like? 1 : 0
+            );
+
+            await this.likesDislikesDatabase.createPost(newLikeDislike.likeDislikeToDBModel());
+            
+            //mudando contagem de like/dislike tabela posts
+
+            const newLikeDislikeCount:LikesDislikesCountDB = {
+                newLikeCount: like? currentLikeCount + 1 : currentLikeCount,
+                newDislikeCount: like? currentDislikeCount : currentDislikeCount + 1
+            };
+
+            await this.postDatabase.editPostLikes(postDB.getId(), newLikeDislikeCount);
+
+            return
+        };
+
+        const likeDislikeDB = new LikesDislikes(
+            payload.id,
+            id,
+            like? 1 : 0
+        );
+
+        if(checkLikeDislike.like === 1 && like){
+            //remove da tabela likeDislike, subtrai like de posts
+
+            await this.likesDislikesDatabase.deletePost(likeDislikeDB.getPostId(), likeDislikeDB.getUserId());
+
+            const newLikeDislikeCount:LikesDislikesCountDB = {
+                newLikeCount: currentLikeCount - 1,
+                newDislikeCount: currentDislikeCount
+            };
+
+            await this.postDatabase.editPostLikes(id, newLikeDislikeCount);
+
+            return
+        };
+
+        if(checkLikeDislike.like === 1 && !like){
+            //muda para 0 na tabela likeDislike, subtrai um like e soma um dislike na posts
+
+            await this.likesDislikesDatabase.editLikes(likeDislikeDB.getPostId(), likeDislikeDB.getUserId(), likeDislikeDB.getLike());
+
+            const newLikeDislikeCount:LikesDislikesCountDB = {
+                newLikeCount: currentLikeCount - 1,
+                newDislikeCount: currentDislikeCount + 1
+            };
+
+            await this.postDatabase.editPostLikes(likeDislikeDB.getPostId(), newLikeDislikeCount);
+
+            return            
+        };
+
+        if(checkLikeDislike.like === 0 && like){
+            //muda para 1 na tabela likeDislike, soma 1 na like da posts
+
+            await this.likesDislikesDatabase.editLikes(likeDislikeDB.getPostId(), likeDislikeDB.getUserId(), likeDislikeDB.getLike());
+
+            const newLikeDislikeCount:LikesDislikesCountDB = {
+                newLikeCount: currentLikeCount + 1,
+                newDislikeCount: currentDislikeCount - 1
+            };
+
+            await this.postDatabase.editPostLikes(likeDislikeDB.getPostId(), newLikeDislikeCount);
+
+            return
+        };
+
+        if(checkLikeDislike.like === 0 && !like){
+            //muda para 1 na tabela likeDislike, deleta o post da likeDislike, subtrai um dislike da posts
+
+            await this.likesDislikesDatabase.deletePost(likeDislikeDB.getPostId(), likeDislikeDB.getUserId());
+
+            const newLikeDislikeCount:LikesDislikesCountDB = {
+                newLikeCount: currentLikeCount,
+                newDislikeCount: currentDislikeCount - 1
+            };
+
+            await this.postDatabase.editPostLikes(likeDislikeDB.getPostId(), newLikeDislikeCount);
+
+            return
+        }
+
+        
+
+
     }
 }

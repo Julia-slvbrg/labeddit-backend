@@ -1,3 +1,4 @@
+import { LikesDislikesCountDB } from "../../models/LikesDislikes";
 import { GetPostDB, Post, PostDB } from "../../models/Post";
 import { BaseDatabase } from "../BaseDatabase";
 
@@ -43,5 +44,15 @@ export class PostDatabase extends BaseDatabase {
         await BaseDatabase.connection(this.TABLE_NAME)
             .del()
             .where({id})
+    };
+
+    public async editPostLikes(postId:string, newLikeDislikeCount:LikesDislikesCountDB){
+        await BaseDatabase.connection(this.TABLE_NAME)
+            .update(
+                {
+                    likes: newLikeDislikeCount.newLikeCount,
+                    dislikes: newLikeDislikeCount.newDislikeCount
+                }
+            ).where({id: postId})
     }
 }
