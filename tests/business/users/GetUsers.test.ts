@@ -2,14 +2,13 @@ import { ZodError } from "zod";
 import { UserBusiness } from "../../../src/business/users/UserBusiness";
 import { GetUsersSchema } from "../../../src/dtos/users/getUsers.dto";
 import { BadRequestError } from "../../../src/errors/BadRequestError";
-import { BaseError } from "../../../src/errors/BaseError";
 import { USER_ROLES } from "../../../src/models/User";
 import { HashManagerMock } from "../../mocks/HashManagerMock";
 import { IdGeneratorMock } from "../../mocks/IdGeneratorMock";
 import { TokenManagerMock } from "../../mocks/TokenManagerMock";
 import { UserDatabaseMock } from "../../mocks/UserDatabaseMock";
 
-describe('Test for the GetUsers method', () => {
+describe('Tests for the GetUsers method', () => {
     const userBusiness = new UserBusiness(
         new UserDatabaseMock(),
         new TokenManagerMock(),
