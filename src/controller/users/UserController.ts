@@ -11,10 +11,10 @@ export class UserController{
         private userBusiness: UserBusiness
     ){};
 
-    public getUsers =async (req: Request, res: Response) => {
+    public getUsers = async (req: Request, res: Response) => {
         try {
             const input = GetUsersSchema.parse({
-                q: req.body.q,
+                q: req.query.q,
                 token: req.headers.authorization
             });
 

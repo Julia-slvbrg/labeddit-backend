@@ -23,3 +23,4 @@ postRouter.get('/', postController.getPosts);
 postRouter.put('/:id', postController.updatePost);
 postRouter.delete('/:id', postController.deletePost);
 postRouter.put('/:id/like', postController.likeDislikePost)
+//FALTOU A TABELA PARA COMENTÁRIOS

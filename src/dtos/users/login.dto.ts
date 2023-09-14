@@ -24,5 +24,5 @@ export const LoginSchema = z.object({
             required_error: 'password is required.',
             invalid_type_error: 'password must be a string'
         }
-    ).min(1)
+    ).min(2)
 }).transform(data => data as LoginInputDTO)

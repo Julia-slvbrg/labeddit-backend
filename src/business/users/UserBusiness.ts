@@ -4,10 +4,10 @@ import { LoginInputDTO, LoginOutputDTO } from "../../dtos/users/login.dto";
 import { SignupInputDTO, SignupOutputDTO } from "../../dtos/users/signup.dto";
 import { BadRequestError } from "../../errors/BadRequestError";
 import { NotFoundError } from "../../errors/NotFoundError";
-import { USER_ROLES, User } from "../../models/User";
+import { TokenPayload, USER_ROLES, User } from "../../models/User";
 import { HashManager } from "../../services/HashManager";
 import { IdGenerator } from "../../services/IdGenerator";
-import { TokenManager, TokenPayload } from "../../services/TokenManager";
+import { TokenManager } from "../../services/TokenManager";
 
 export class UserBusiness{
     constructor(
@@ -20,7 +20,7 @@ export class UserBusiness{
     public getUsers = async (input: GetUsersInputDTO):Promise<GetUsersOutputDTO[]> => {
         const { q, token } = input;
 
-        const payload = this.tokenManager.getPayload(token);
+        const payload = this.tokenManager.getPayload(token)
 
         if(!payload){
             throw new BadRequestError('token is required.')
@@ -43,7 +43,7 @@ export class UserBusiness{
         });
 
         return users
-    };
+    }; 
 
     public signup = async (input:SignupInputDTO):Promise<SignupOutputDTO> => {
         const { name, email, password } = input;
@@ -82,10 +82,10 @@ export class UserBusiness{
         return output
     }
 
-    public login =async (input:LoginInputDTO):Promise<LoginOutputDTO> => {
+    public login = async (input:LoginInputDTO):Promise<LoginOutputDTO> => {
         const { email, password } = input;
 
-        const [checkUserDB] = await this.userDatabase.findEmail(email);
+        const checkUserDB = await this.userDatabase.findEmail(email);
 
         if(!checkUserDB){
             throw new NotFoundError('email or password not valid')

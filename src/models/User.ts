@@ -63,5 +63,11 @@ export interface UserDB{
     password: string,
     user_role: USER_ROLES,
     created_at: string
-}
+};
+
+export interface TokenPayload {
+    id: string,
+    role: USER_ROLES,
+    name: string
+};
 
