@@ -7,7 +7,7 @@ import { LikeDislikePostInputDTO } from "../../dtos/posts/likeDislikePost.dto";
 import { UpdatePostInputDTO, UpdatePostOutputDTO } from "../../dtos/posts/updatePost.dto";
 import { BadRequestError } from "../../errors/BadRequestError";
 import { NotFoundError } from "../../errors/NotFoundError";
-import { LikesDislikes, LikesDislikesCountDB, LikesDislikesDB } from "../../models/LikesDislikes";
+import { LikesDislikes, LikesDislikesCountDB } from "../../models/LikesDislikes";
 import { GetPostDB, Post, PostDB } from "../../models/Post";
 import { USER_ROLES } from "../../models/User";
 import { IdGenerator } from "../../services/IdGenerator";

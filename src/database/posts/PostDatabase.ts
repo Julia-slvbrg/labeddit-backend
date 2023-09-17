@@ -1,5 +1,5 @@
 import { LikesDislikesCountDB } from "../../models/LikesDislikes";
-import { GetPostDB, Post, PostDB } from "../../models/Post";
+import { GetPostDB, PostDB } from "../../models/Post";
 import { BaseDatabase } from "../BaseDatabase";
 
 export class PostDatabase extends BaseDatabase {

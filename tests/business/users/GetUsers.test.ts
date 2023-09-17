@@ -18,7 +18,7 @@ describe('Tests for the GetUsers method', () => {
 
     test('Should return a list containing all users', async () => {
         const input = GetUsersSchema.parse({
-            token: "token-mock-adminUser"
+            token: 'token-mock-adminUser'
         });
 
         const output = await userBusiness.getUsers(input);
@@ -45,7 +45,7 @@ describe('Tests for the GetUsers method', () => {
     test('Should return one user for the query', async () => {
         const input = GetUsersSchema.parse({
             q: 'norm',
-            token: "token-mock-adminUser"
+            token: 'token-mock-adminUser'
         });
 
         const output = await userBusiness.getUsers(input);
@@ -114,7 +114,7 @@ describe('Tests for the GetUsers method', () => {
         try {
             const input = GetUsersSchema.parse({
                 q: 111,
-                token: "token-mock-adminUser"
+                token: 'token-mock-adminUser'
             });
 
             await userBusiness.getUsers(input)
