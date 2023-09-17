@@ -67,7 +67,10 @@ describe('Tests for the CreatePost method', () => {
             const input = CreatePostSchema.parse({
                 content: 'Create post test',
                 token: 111
-            })
+            });
+
+            await postBusiness.createPost(input) 
+            
         } catch (error) {
             expect(error instanceof ZodError).toBe(true)
         }

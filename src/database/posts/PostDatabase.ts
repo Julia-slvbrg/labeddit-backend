@@ -22,14 +22,14 @@ export class PostDatabase extends BaseDatabase {
                 'posts.creator_id as creatorId',
                 'users.name as creatorName'
             )
-            .innerJoin('users', 'users,id', '=', 'posts.creator_id');
+            .innerJoin('users', 'users.id', '=', 'posts.creator_id');
         
         return result
     };
 
     public async getPostById(id:string):Promise<PostDB>{
-        const postDB:PostDB = await super.findById(id);
-
+        const [postDB]:PostDB[] = await super.findById(id);
+        
         return postDB
     };
 

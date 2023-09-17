@@ -53,7 +53,7 @@ export class PostBusiness{
         const { token } = input;
 
         const payload = this.tokenManager.getPayload(token);
-
+     
         if(!payload){
             throw new BadRequestError('Invalid token.')
         };
