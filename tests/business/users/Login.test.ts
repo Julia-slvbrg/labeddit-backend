@@ -54,7 +54,7 @@ describe('Tests for the Login method', () => {
 
         } catch (error) {
             if(error instanceof NotFoundError){
-                expect(error.statusCode).toBe(400);
+                expect(error.statusCode).toBe(404);
                 expect(error.message).toBe('email or password not valid')
             }
         }
