@@ -16,6 +16,78 @@ describe('Tests for the LikeDislikePost method', () => {
         new IdGeneratorMock()
     );
 
+    test('Should not throw any errors when executed (liking a post already liked)', async () => {
+        const input = LikeDislikeSchema.parse({
+            id: 'post001',
+            like: true,
+            token: 'token-mock-adminUser'
+        });
+
+        await postBusiness.likeDislikePost(input);
+
+        expect(async () => await postBusiness.likeDislikePost(input)).not.toThrow()
+    });
+
+    test('Should not throw any errors when executed (disliking a post already liked)', async () => {
+        const input = LikeDislikeSchema.parse({
+            id: 'post001',
+            like: false,
+            token: 'token-mock-adminUser'
+        });
+
+        await postBusiness.likeDislikePost(input);
+
+        expect(async () => await postBusiness.likeDislikePost(input)).not.toThrow()
+    });
+
+    test('Should not throw any errors when executed (liking a new post)', async () => {
+        const input = LikeDislikeSchema.parse({
+            id: 'post001',
+            like: true,
+            token: 'token-mock-mockUser'
+        });
+
+        await postBusiness.likeDislikePost(input);
+
+        expect(async () => await postBusiness.likeDislikePost(input)).not.toThrow()
+    });
+
+    test('Should not throw any errors when executed (disliking a new post)', async () => {
+        const input = LikeDislikeSchema.parse({
+            id: 'post003',
+            like: false,
+            token: 'token-mock-mockUser'
+        });
+
+        await postBusiness.likeDislikePost(input);
+
+        expect(async () => await postBusiness.likeDislikePost(input)).not.toThrow()
+    });
+
+    test('Should not throw any errors when executed (liking a post already disliked)', async () => {
+        const input = LikeDislikeSchema.parse({
+            id: 'post003',
+            like: true,
+            token: 'token-mock-normUser'
+        });
+
+        await postBusiness.likeDislikePost(input);
+
+        expect(async () => await postBusiness.likeDislikePost(input)).not.toThrow()
+    });
+
+    test('Should not throw any errors when executed (disliking a post already disliked)', async () => {
+        const input = LikeDislikeSchema.parse({
+            id: 'post003',
+            like: false,
+            token: 'token-mock-normUser'
+        });
+
+        await postBusiness.likeDislikePost(input);
+
+        expect(async () => await postBusiness.likeDislikePost(input)).not.toThrow()
+    });
+
     test('Invalid token', async () => {
         expect.assertions(2);
         try {

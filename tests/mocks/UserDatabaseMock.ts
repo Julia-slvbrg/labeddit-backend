@@ -17,6 +17,14 @@ export const usersMock: UserDB[] = [
         password: 'hash-mock-adminUser', //password = adminUser123!
         user_role: USER_ROLES.ADMIN,
         created_at: new Date().toISOString()
+    },
+    {
+        id: 'id-mock-mockUser',
+        name: 'MockUser',
+        email: 'mockuser@email.com',
+        password: 'hash-mock-mockUser', //password = mockUser123!
+        user_role: USER_ROLES.NORMAL,
+        created_at: new Date().toISOString()
     }
 ];
 

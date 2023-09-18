@@ -169,7 +169,7 @@ export class PostBusiness{
         const currentLikeCount = postDB.getLikes();
         const currentDislikeCount = postDB.getDislikes();
 
-        const [checkLikeDislike] = await this.likesDislikesDatabase.getLike(payload.id, id);
+        const [checkLikeDislike] = await this.likesDislikesDatabase.getLike(id, payload.id);
 
         if(!checkLikeDislike){
 
@@ -197,7 +197,7 @@ export class PostBusiness{
             like? 1 : 0
         );
 
-        if(checkLikeDislike.like === 1 && like){
+        if(checkLikeDislike.like === 1 && like){ 
 
             await this.likesDislikesDatabase.deletePost(likeDislikeDB.getPostId(), likeDislikeDB.getUserId());
 
