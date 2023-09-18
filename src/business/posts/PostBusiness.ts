@@ -172,7 +172,6 @@ export class PostBusiness{
         const [checkLikeDislike] = await this.likesDislikesDatabase.getLike(payload.id, id);
 
         if(!checkLikeDislike){
-            //criando a interação na tabela
 
             const newLikeDislike = new LikesDislikes(
                 payload.id,
@@ -181,8 +180,6 @@ export class PostBusiness{
             );
 
             await this.likesDislikesDatabase.createPost(newLikeDislike.likeDislikeToDBModel());
-            
-            //mudando contagem de like/dislike tabela posts
 
             const newLikeDislikeCount:LikesDislikesCountDB = {
                 newLikeCount: like? currentLikeCount + 1 : currentLikeCount,
@@ -201,7 +198,6 @@ export class PostBusiness{
         );
 
         if(checkLikeDislike.like === 1 && like){
-            //remove da tabela likeDislike, subtrai like de posts
 
             await this.likesDislikesDatabase.deletePost(likeDislikeDB.getPostId(), likeDislikeDB.getUserId());
 
@@ -216,7 +212,6 @@ export class PostBusiness{
         };
 
         if(checkLikeDislike.like === 1 && !like){
-            //muda para 0 na tabela likeDislike, subtrai um like e soma um dislike na posts
 
             await this.likesDislikesDatabase.editLikes(likeDislikeDB.getPostId(), likeDislikeDB.getUserId(), likeDislikeDB.getLike());
 
@@ -231,7 +226,6 @@ export class PostBusiness{
         };
 
         if(checkLikeDislike.like === 0 && like){
-            //muda para 1 na tabela likeDislike, soma 1 na like da posts
 
             await this.likesDislikesDatabase.editLikes(likeDislikeDB.getPostId(), likeDislikeDB.getUserId(), likeDislikeDB.getLike());
 
@@ -246,7 +240,6 @@ export class PostBusiness{
         };
 
         if(checkLikeDislike.like === 0 && !like){
-            //muda para 1 na tabela likeDislike, deleta o post da likeDislike, subtrai um dislike da posts
 
             await this.likesDislikesDatabase.deletePost(likeDislikeDB.getPostId(), likeDislikeDB.getUserId());
 
@@ -259,9 +252,5 @@ export class PostBusiness{
 
             return
         }
-
-        
-
-
     }
 }
