@@ -16,6 +16,17 @@ describe('Tests for the DeletePost method', () => {
         new IdGeneratorMock()
     );
 
+    test('Should not throw any errors when executed', async () => {
+        const input = DeletePostSchema.parse({
+            id: 'post001',
+            token: 'token-mock-normUser'
+        });
+
+        await postBusiness.deletePost(input)
+       
+        expect(async () => await postBusiness.deletePost(input)).not.toThrow()
+    });
+
     test('Invalid token', async () => {
         expect.assertions(2);
         try {
@@ -46,7 +57,7 @@ describe('Tests for the DeletePost method', () => {
 
         } catch (error) {
             if(error instanceof NotFoundError){
-                expect(error.statusCode).toBe(400);
+                expect(error.statusCode).toBe(404);
                 expect(error.message).toBe('Post not found.')
             }
         }

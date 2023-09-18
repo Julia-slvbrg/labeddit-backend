@@ -4,6 +4,6 @@ export class NotFoundError extends BaseError{
     constructor(
         message: string = 'Data not found'
     ){
-        super(400, message)
+        super(404, message)
     }
 }
