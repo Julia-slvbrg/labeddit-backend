@@ -33,7 +33,7 @@ describe('Tests for the CreatePost method', () => {
         try {
             const input = CreatePostSchema.parse({
                 content: 'Create post test',
-                token: 'token'
+                token: 'token-mock'
             });
 
             await postBusiness.createPost(input);

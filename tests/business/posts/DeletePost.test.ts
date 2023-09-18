@@ -1,6 +1,6 @@
 import { ZodError } from "zod"
 import { PostBusiness } from "../../../src/business/posts/PostBusiness"
-import { UpdatePostSchema } from "../../../src/dtos/posts/updatePost.dto"
+import { DeletePostSchema } from "../../../src/dtos/posts/deletePost.dto"
 import { BadRequestError } from "../../../src/errors/BadRequestError"
 import { NotFoundError } from "../../../src/errors/NotFoundError"
 import { IdGeneratorMock } from "../../mocks/IdGeneratorMock"
@@ -8,7 +8,7 @@ import { LikeDislikesDatabaseMock } from "../../mocks/LikeDislikesDatabaseMock"
 import { PostDatabaseMock } from "../../mocks/PostDatabaseMock"
 import { TokenManagerMock } from "../../mocks/TokenManagerMock"
 
-describe('Test for the UpdatePost method', () => {
+describe('Tests for the DeletePost method', () => {
     const postBusiness = new PostBusiness(
         new PostDatabaseMock(),
         new LikeDislikesDatabaseMock(),
@@ -16,31 +16,16 @@ describe('Test for the UpdatePost method', () => {
         new IdGeneratorMock()
     );
 
-    test('Should return the updated content', async () => {
-        const input = UpdatePostSchema.parse({
-            id: 'post001',
-            content: 'Updated post',
-            token: 'token-mock-normUser'
-        });
-
-        const output = await postBusiness.updatePost(input)
-
-        expect(output).toEqual({
-            content: 'Updated post'
-        })
-    });
-
-    test('Invalid token error', async () => {
+    test('Invalid token', async () => {
         expect.assertions(2);
         try {
-            const input = UpdatePostSchema.parse({
+            const input = DeletePostSchema.parse({
                 id: 'post001',
-                content: 'Updated post',
-                token: 'token-mock'
+                token: 'token'
             });
 
-            await postBusiness.updatePost(input)
-
+            await postBusiness.deletePost(input)
+            
         } catch (error) {
             if(error instanceof BadRequestError){
                 expect(error.statusCode).toBe(400);
@@ -49,16 +34,16 @@ describe('Test for the UpdatePost method', () => {
         }
     });
 
-    test('Post not found error', async () => {
+    test('Post not found', async () => {
         expect.assertions(2);
         try {
-            const input = UpdatePostSchema.parse({
+            const input = DeletePostSchema.parse({
                 id: 'post055',
-                content: 'Updated post',
                 token: 'token-mock-normUser'
             });
+    
+            await postBusiness.deletePost(input)
 
-            await postBusiness.updatePost(input)
         } catch (error) {
             if(error instanceof NotFoundError){
                 expect(error.statusCode).toBe(400);
@@ -70,17 +55,17 @@ describe('Test for the UpdatePost method', () => {
     test('Unauthorized user', async () => {
         expect.assertions(2);
         try {
-            const input = UpdatePostSchema.parse({
+            const input = DeletePostSchema.parse({
                 id: 'post001',
-                content: 'Updated post',
-                token: 'token-mock-adminUser'
+                token: 'token-mock-mockUser'
             });
+    
+            await postBusiness.deletePost(input)
 
-            await postBusiness.updatePost(input)
         } catch (error) {
             if(error instanceof BadRequestError){
                 expect(error.statusCode).toBe(400);
-                expect(error.message).toBe('Only the creator of the post can edit it.')
+                expect(error.message).toBe('Only the creator of the post or ADMIN users can delete it.')
             }
         }
     });
@@ -88,27 +73,13 @@ describe('Test for the UpdatePost method', () => {
     test('Zod validation for the id', async () => {
         expect.assertions(1);
         try {
-            const input = UpdatePostSchema.parse({
-                content: 'Updated post',
+            const input = DeletePostSchema.parse({
+                id: ' ',
                 token: 'token-mock-normUser'
             });
+    
+            await postBusiness.deletePost(input)
 
-            await postBusiness.updatePost(input)
-        } catch (error) {
-            expect(error instanceof ZodError).toBe(true)
-        }
-    });
-
-    test('Zod validation for the content', async () => {
-        expect.assertions(1);
-        try {
-            const input = UpdatePostSchema.parse({
-                id: 'post001',
-                content: '',
-                token: 'token-mock-normUser'
-            });
-
-            await postBusiness.updatePost(input)
         } catch (error) {
             expect(error instanceof ZodError).toBe(true)
         }
@@ -117,13 +88,13 @@ describe('Test for the UpdatePost method', () => {
     test('Zod validation for the token', async () => {
         expect.assertions(1);
         try {
-            const input = UpdatePostSchema.parse({
+            const input = DeletePostSchema.parse({
                 id: 'post001',
-                content: 'Updated post',
                 token: ''
             });
+    
+            await postBusiness.deletePost(input)
 
-            await postBusiness.updatePost(input)
         } catch (error) {
             expect(error instanceof ZodError).toBe(true)
         }
