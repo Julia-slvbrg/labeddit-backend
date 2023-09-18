@@ -61,7 +61,7 @@ describe('Test for the UpdatePost method', () => {
             await postBusiness.updatePost(input)
         } catch (error) {
             if(error instanceof NotFoundError){
-                expect(error.statusCode).toBe(400);
+                expect(error.statusCode).toBe(404);
                 expect(error.message).toBe('Post not found.')
             }
         }

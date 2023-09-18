@@ -48,7 +48,7 @@ describe('Tests for the LikeDislikePost method', () => {
 
         } catch (error) {
             if(error instanceof NotFoundError){
-                expect(error.statusCode).toBe(400);
+                expect(error.statusCode).toBe(404);
                 expect(error.message).toBe('Post not found.')
             }
         }
