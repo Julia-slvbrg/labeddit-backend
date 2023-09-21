@@ -17,6 +17,7 @@ export class PostDatabase extends BaseDatabase {
                 'posts.content',
                 'posts.likes',
                 'posts.dislikes',
+                'posts.comments',
                 'posts.created_at as createdAt',
                 'posts.updated_at as updatedAt',
                 'posts.creator_id as creatorId',
@@ -46,7 +47,7 @@ export class PostDatabase extends BaseDatabase {
             .where({id})
     };
 
-    public async editPostLikes(postId:string, newLikeDislikeCount:LikesDislikesCountDB){
+    public async editPostLikes(postId:string, newLikeDislikeCount:LikesDislikesCountDB):Promise<void>{
         await BaseDatabase.connection(this.TABLE_NAME)
             .update(
                 {

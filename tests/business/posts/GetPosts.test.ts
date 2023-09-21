@@ -6,11 +6,13 @@ import { IdGeneratorMock } from "../../mocks/IdGeneratorMock"
 import { LikeDislikesDatabaseMock } from "../../mocks/LikeDislikesDatabaseMock"
 import { PostDatabaseMock } from "../../mocks/PostDatabaseMock"
 import { TokenManagerMock } from "../../mocks/TokenManagerMock"
+import { CommentDatabaseMock } from "../../mocks/CommentDatabaseMock"
 
 describe('Tests for the GetPosts method', () => {
     const postbusiness = new PostBusiness(
         new PostDatabaseMock(),
         new LikeDislikesDatabaseMock(),
+        new CommentDatabaseMock(),
         new TokenManagerMock(),
         new IdGeneratorMock()
     );
@@ -29,6 +31,7 @@ describe('Tests for the GetPosts method', () => {
                 content: "normUser's first post",
                 likes: 1,
                 dislikes: 0,
+                comments: 2,
                 createdAt: expect.any(String),
                 updatedAt: expect.any(String),
                 creator: {
@@ -41,6 +44,7 @@ describe('Tests for the GetPosts method', () => {
                 content: "normUser's second post",
                 likes: 0,
                 dislikes: 0,
+                comments: 7,
                 createdAt: expect.any(String),
                 updatedAt: expect.any(String),
                 creator: {
@@ -53,6 +57,7 @@ describe('Tests for the GetPosts method', () => {
                 content: "adminUser's first post",
                 likes: 1,
                 dislikes: 1,
+                comments: 0,
                 createdAt: expect.any(String),
                 updatedAt: expect.any(String),
                 creator: {

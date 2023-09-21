@@ -6,11 +6,13 @@ import { IdGeneratorMock } from "../../mocks/IdGeneratorMock";
 import { LikeDislikesDatabaseMock } from "../../mocks/LikeDislikesDatabaseMock";
 import { PostDatabaseMock } from "../../mocks/PostDatabaseMock";
 import { TokenManagerMock } from "../../mocks/TokenManagerMock";
+import { CommentDatabaseMock } from "../../mocks/CommentDatabaseMock";
 
 describe('Tests for the CreatePost method', () => {
     const postBusiness = new PostBusiness(
         new PostDatabaseMock(),
         new LikeDislikesDatabaseMock(),
+        new CommentDatabaseMock(),
         new TokenManagerMock(),
         new IdGeneratorMock()
     );
