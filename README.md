@@ -34,6 +34,8 @@ For the posts, the API allows you to create, fetch, edit, delete, like/dislike a
 ## Demonstration
 
 
+https://github.com/Julia-slvbrg/labeddit-backend/assets/114543081/bb2ebf58-d688-41cf-a727-5ba40b3ed747
+
 
 ## How to run
 ```bash
