@@ -75,7 +75,7 @@ $ npm run dev
     - app.delete => 'https://labeddit-back-jsboz.onrender.com/posts/:id';
  - Like and dislike post by id
     - app.put => 'https://labeddit-back-jsboz.onrender.com/posts/:id/like';
-- Comment a post by id
+ - Comment a post by id
     -   app.post => 'https://labeddit-back-jsboz.onrender.com/posts/:id/comment'
 
 ## Tecnologies used
