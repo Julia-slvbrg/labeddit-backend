@@ -9,7 +9,7 @@ import { TokenManagerMock } from "../../mocks/TokenManagerMock"
 import { CommentDatabaseMock } from "../../mocks/CommentDatabaseMock"
 
 describe('Tests for the GetPosts method', () => {
-    const postbusiness = new PostBusiness(
+    const postBusiness = new PostBusiness(
         new PostDatabaseMock(),
         new LikeDislikesDatabaseMock(),
         new CommentDatabaseMock(),
@@ -22,7 +22,7 @@ describe('Tests for the GetPosts method', () => {
             token: 'token-mock-normUser'
         });
 
-        const output = await postbusiness.getPosts(input);
+        const output = await postBusiness.getPosts(input);
 
         expect(output).toHaveLength(3);
         expect(output).toEqual([
@@ -75,7 +75,7 @@ describe('Tests for the GetPosts method', () => {
                 token: 'token'
             });
 
-            await postbusiness.getPosts(input)
+            await postBusiness.getPosts(input)
         } catch (error) {
             if(error instanceof BadRequestError){
                 expect(error.statusCode).toBe(400);
@@ -91,7 +91,7 @@ describe('Tests for the GetPosts method', () => {
                 token: 111
             });
             
-            await postbusiness.getPosts(input)
+            await postBusiness.getPosts(input)
         } catch (error) {
             expect(error instanceof ZodError).toBe(true)
         }
