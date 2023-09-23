@@ -62,7 +62,7 @@ $ npm run dev
  - Signup
     - app.post => 'https://labeddit-back-jsboz.onrender.com/users/signup';
  - Login
-    - app.post => 'https://labeddit-back-jsboz.onrender.com/users/login'.
+    - app.post => 'https://labeddit-back-jsboz.onrender.com/users/login'
 
 2. Endpoints for the posts table:
  - Create post
