@@ -1,11 +1,11 @@
-export class Post{
+export class Comment{
     constructor(
         private id: string,
         private creatorId: string,
+        private postId: string,
         private content: string,
         private likes: number,
         private dislikes: number,
-        private comments: number,
         private createdAt: string,
         private updatedAt: string
     ){};
@@ -16,6 +16,9 @@ export class Post{
     public getCreatorId():string{
         return this.creatorId
     };
+    public getPostId():string{
+        return this.postId
+    };
     public getContent():string{
         return this.content
     };
@@ -24,9 +27,6 @@ export class Post{
     };
     public getDislikes():number{
         return this.dislikes
-    };
-    public getComments():number{
-        return this.comments
     };
     public getCreatedAt():string{
         return this.createdAt
@@ -43,47 +43,31 @@ export class Post{
     public setDislikes(dislikes:number):void{
         this.dislikes = dislikes
     };
-    public setComments(comments:number):void{
-        this.comments = comments
-    };
-    public setUpdateAt(updatedAt:string):void{
+    public setUpdatedAt(updatedAt:string):void{
         this.updatedAt = updatedAt
     };
 
-    public postToDBModel():PostDB{
+    public commentToDBModel():CommentDB{
         return{
             id: this.id,
             creator_id: this.creatorId,
+            post_id: this.postId,
             content: this.content,
             likes: this.likes,
             dislikes: this.dislikes,
-            comments: this.comments,
             created_at: this.createdAt,
             updated_at: this.updatedAt
         }
     }
 };
 
-export interface PostDB{
+export interface CommentDB{
     id: string,
     creator_id: string,
+    post_id: string,
     content: string,
     likes: number,
     dislikes: number,
-    comments: number,
     created_at: string,
-    updated_at:string
-};
-
-export interface GetPostDB{
-    id: string,
-    content: string,
-    likes: number,
-    dislikes: number,
-    comments: number,
-    createdAt: string,
-    updatedAt: string,
-    creatorId: string,
-    creatorName: string
+    updated_at: string
 }
-

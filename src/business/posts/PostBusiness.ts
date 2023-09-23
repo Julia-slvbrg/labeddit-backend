@@ -1,22 +1,26 @@
 import { LikesDislikesDatabase } from "../../database/likesDislikes/LikesDislikesDatabase";
 import { PostDatabase } from "../../database/posts/PostDatabase";
+import { CreateCommentInputDTO, CreateCommentOutputDTO } from "../../dtos/comments/CreateComment.dto";
 import { CreatePostInputDTO, CreatePostOutputDTO } from "../../dtos/posts/createPost.dto";
 import { DeletePostInputDTO } from "../../dtos/posts/deletePost.dto";
 import { GetPostsInputDTO, GetPostsOutputDTO } from "../../dtos/posts/getPosts.dto";
-import { LikeDislikePostInputDTO } from "../../dtos/posts/likeDislikePost.dto";
+import { LikeDislikePostInputDTO, LikeDislikePostOutputDTO } from "../../dtos/posts/likeDislikePost.dto";
 import { UpdatePostInputDTO, UpdatePostOutputDTO } from "../../dtos/posts/updatePost.dto";
 import { BadRequestError } from "../../errors/BadRequestError";
 import { NotFoundError } from "../../errors/NotFoundError";
 import { LikesDislikes, LikesDislikesCountDB } from "../../models/LikesDislikes";
 import { GetPostDB, Post, PostDB } from "../../models/Post";
+import { Comment } from "../../models/Comment";
 import { USER_ROLES } from "../../models/User";
 import { IdGenerator } from "../../services/IdGenerator";
 import { TokenManager } from "../../services/TokenManager";
+import { CommentDatabase } from "../../database/comments/CommentDatabase";
 
 export class PostBusiness{
     constructor(
         private postDatabase: PostDatabase,
         private likesDislikesDatabase: LikesDislikesDatabase,
+        private commentDatabase: CommentDatabase,
         private tokenManager: TokenManager,
         private idGenerator: IdGenerator
     ){}
@@ -34,6 +38,7 @@ export class PostBusiness{
             this.idGenerator.generateId(),
             payload.id,
             content,
+            0,
             0,
             0,
             new Date().toISOString(),
@@ -66,6 +71,7 @@ export class PostBusiness{
                 content: postDB.content,
                 likes: postDB.likes,
                 dislikes: postDB.dislikes,
+                comments: postDB.comments,
                 createdAt: postDB.createdAt,
                 updatedAt: postDB.updatedAt,
                 creator: {
@@ -103,6 +109,7 @@ export class PostBusiness{
             checkPost.content,
             checkPost.likes,
             checkPost.dislikes,
+            checkPost.comments,
             checkPost.created_at,
             checkPost.updated_at
         );
@@ -141,7 +148,7 @@ export class PostBusiness{
         await this.postDatabase.deletePost(id)
     };
 
-    public likeDislikePost = async (input:LikeDislikePostInputDTO) => {
+    public likeDislikePost = async (input:LikeDislikePostInputDTO):Promise<void> => {
         const { id, like, token } = input;
 
         const payload = this.tokenManager.getPayload(token);
@@ -162,6 +169,7 @@ export class PostBusiness{
             checkPostDB.content,
             checkPostDB.likes,
             checkPostDB.dislikes,
+            checkPostDB.comments,
             checkPostDB.created_at,
             checkPostDB.updated_at
         );
@@ -252,5 +260,56 @@ export class PostBusiness{
 
             return
         }
+    };
+
+    public createComment = async (input:CreateCommentInputDTO):Promise<CreateCommentOutputDTO> =>{
+        const { id, content, token } = input;
+
+        const payload = this.tokenManager.getPayload(token);
+
+        if(!payload){
+            throw new BadRequestError('Invalid token.')
+        };
+
+        const checkPostDB:PostDB = await this.postDatabase.getPostById(id);
+
+        if(!checkPostDB){
+            throw new NotFoundError('Post not found.')
+        };
+
+        const postDB = new Post(
+            checkPostDB.id,
+            checkPostDB.creator_id,
+            checkPostDB.content,
+            checkPostDB.likes,
+            checkPostDB.dislikes,
+            checkPostDB.comments,
+            checkPostDB.created_at,
+            checkPostDB.updated_at
+        );
+        
+        const newCommentCount = postDB.getComments() + 1;
+        postDB.setComments(newCommentCount);
+
+        await this.postDatabase.updatePost(postDB.postToDBModel());
+
+        const newComment = new Comment(
+            this.idGenerator.generateId(),
+            payload.id,
+            id,
+            content,
+            0,
+            0,
+            new Date().toISOString(),
+            new Date().toISOString()
+        );
+       
+        await this.commentDatabase.createComment(newComment.commentToDBModel());
+
+        const output:CreateCommentOutputDTO = {
+            comment: content
+        };
+
+        return output
     }
 }

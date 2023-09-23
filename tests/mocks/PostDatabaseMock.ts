@@ -1,6 +1,7 @@
 import { BaseDatabase } from "../../src/database/BaseDatabase";
 import { GetPostDB, PostDB } from "../../src/models/Post";
 import { LikesDislikesCountDB } from "../../src/models/LikesDislikes";
+import { CommentDB } from "../../src/models/Comment";
 
 const postsMock: PostDB[] = [
     {
@@ -9,6 +10,7 @@ const postsMock: PostDB[] = [
         content: "normUser's first post",
         likes: 1,
         dislikes: 0,
+        comments: 2,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString()
     },
@@ -18,6 +20,7 @@ const postsMock: PostDB[] = [
         content: "normUser's second post",
         likes: 0,
         dislikes: 0,
+        comments: 7,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString()
     },
@@ -27,6 +30,7 @@ const postsMock: PostDB[] = [
         content: "adminUser's first post",
         likes: 1,
         dislikes: 1,
+        comments: 0,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString()
     }
@@ -46,6 +50,7 @@ export class PostDatabaseMock extends BaseDatabase{
                 content: post.content,
                 likes: post.likes,
                 dislikes: post.dislikes,
+                comments: post.comments,
                 createdAt: post.created_at,
                 updatedAt: post.updated_at,
                 creatorId: post.creator_id,
@@ -67,7 +72,11 @@ export class PostDatabaseMock extends BaseDatabase{
 
     };
 
-    public async editPostLikes(postId:string, newLikeDislikeCount:LikesDislikesCountDB){
+    public async editPostLikes(postId:string, newLikeDislikeCount:LikesDislikesCountDB):Promise<void>{
+
+    };
+
+    public async createComment(newComment:CommentDB):Promise<void>{
 
     }
 }

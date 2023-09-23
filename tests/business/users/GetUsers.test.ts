@@ -23,7 +23,7 @@ describe('Tests for the GetUsers method', () => {
 
         const output = await userBusiness.getUsers(input);
         
-        expect(output).toHaveLength(2);
+        expect(output).toHaveLength(3);
         expect(output).toEqual([ 
             {
                 id: 'id-mock-normUser',
@@ -37,6 +37,13 @@ describe('Tests for the GetUsers method', () => {
                 name: 'AdminUser',
                 email: 'adminuser@email.com', 
                 role: USER_ROLES.ADMIN,
+                createdAt: expect.any(String)
+            },
+            {
+                id: 'id-mock-mockUser',
+                name: 'MockUser',
+                email: 'mockuser@email.com',
+                role: USER_ROLES.NORMAL,
                 createdAt: expect.any(String)
             }
         ])

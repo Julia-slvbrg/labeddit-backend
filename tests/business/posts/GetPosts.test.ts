@@ -6,11 +6,13 @@ import { IdGeneratorMock } from "../../mocks/IdGeneratorMock"
 import { LikeDislikesDatabaseMock } from "../../mocks/LikeDislikesDatabaseMock"
 import { PostDatabaseMock } from "../../mocks/PostDatabaseMock"
 import { TokenManagerMock } from "../../mocks/TokenManagerMock"
+import { CommentDatabaseMock } from "../../mocks/CommentDatabaseMock"
 
 describe('Tests for the GetPosts method', () => {
-    const postbusiness = new PostBusiness(
+    const postBusiness = new PostBusiness(
         new PostDatabaseMock(),
         new LikeDislikesDatabaseMock(),
+        new CommentDatabaseMock(),
         new TokenManagerMock(),
         new IdGeneratorMock()
     );
@@ -20,7 +22,7 @@ describe('Tests for the GetPosts method', () => {
             token: 'token-mock-normUser'
         });
 
-        const output = await postbusiness.getPosts(input);
+        const output = await postBusiness.getPosts(input);
 
         expect(output).toHaveLength(3);
         expect(output).toEqual([
@@ -29,6 +31,7 @@ describe('Tests for the GetPosts method', () => {
                 content: "normUser's first post",
                 likes: 1,
                 dislikes: 0,
+                comments: 2,
                 createdAt: expect.any(String),
                 updatedAt: expect.any(String),
                 creator: {
@@ -41,6 +44,7 @@ describe('Tests for the GetPosts method', () => {
                 content: "normUser's second post",
                 likes: 0,
                 dislikes: 0,
+                comments: 7,
                 createdAt: expect.any(String),
                 updatedAt: expect.any(String),
                 creator: {
@@ -53,6 +57,7 @@ describe('Tests for the GetPosts method', () => {
                 content: "adminUser's first post",
                 likes: 1,
                 dislikes: 1,
+                comments: 0,
                 createdAt: expect.any(String),
                 updatedAt: expect.any(String),
                 creator: {
@@ -70,7 +75,7 @@ describe('Tests for the GetPosts method', () => {
                 token: 'token'
             });
 
-            await postbusiness.getPosts(input)
+            await postBusiness.getPosts(input)
         } catch (error) {
             if(error instanceof BadRequestError){
                 expect(error.statusCode).toBe(400);
@@ -86,7 +91,7 @@ describe('Tests for the GetPosts method', () => {
                 token: 111
             });
             
-            await postbusiness.getPosts(input)
+            await postBusiness.getPosts(input)
         } catch (error) {
             expect(error instanceof ZodError).toBe(true)
         }

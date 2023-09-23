@@ -14,24 +14,57 @@ CREATE TABLE IF NOT EXISTS posts(
     content TEXT NOT NULL,
     likes INTEGER NOT NULL,
     dislikes INTEGER NOT NULL,
+    comments INTEGER NOT NULL,
     created_at TEXT DEFAULT(DATETIME('now', 'localtime')) NOT NULL,
     updated_at TEXT DEFAULT(DATETIME('now', 'localtime')) NOT NULL,
-    FOREIGN KEY (creator_id)
-    REFERENCES users(id)
+    FOREIGN KEY (creator_id) REFERENCES users(id)
         ON UPDATE CASCADE
         ON DELETE CASCADE
-);
+); 
 
 CREATE TABLE IF NOT EXISTS likes_dislikes(
     user_id TEXT NOT NULL,
     post_id TEXT NOT NULL,
     like INTEGER NOT NULL,
-    FOREIGN KEY (user_id)
-    REFERENCES users(id)
+    FOREIGN KEY (user_id) REFERENCES users(id)
         ON UPDATE CASCADE
         ON DELETE CASCADE
-    FOREIGN KEY (post_id)
-    REFERENCES posts(id)
+    FOREIGN KEY (post_id) REFERENCES posts(id)
         ON UPDATE CASCADE
         ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS comments(
+    id TEXT PRIMARY KEY UNIQUE NOT NULL,
+    creator_id TEXT NOT NULL,
+    post_id TEXT NOT NULL,
+    content TEXT NOT NULL,
+    likes INTEGER NOT NULL,
+    dislikes INTEGER NOT NULL,
+    created_at TEXT DEFAULT(DATETIME('now', 'localtime')) NOT NULL,
+     updated_at TEXT DEFAULT(DATETIME('now', 'localtime')) NOT NULL,
+    FOREIGN KEY (creator_id) REFERENCES users(id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+    FOREIGN KEY (post_id) REFERENCES posts(id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS comments_likes_dislikes(
+    user_id TEXT NOT NULL,
+    comment_id TEXT NOT NULL,
+    like INTEGER NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+    FOREIGN KEY (comment_id) REFERENCES comments(id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+);
+
+DROP TABLE users;
+DROP TABLE posts;
+DROP TABLE likes_dislikes;
+DROP TABLE comments;
+DROP TABLE comments_likes_dislikes;
