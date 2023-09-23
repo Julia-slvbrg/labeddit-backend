@@ -56,23 +56,25 @@ $ npm run dev
 
 1. Endpoints for the users table:
  - Get all users: 
-    - app.get => 'http://localhost:3003/users';
+    - app.get => 'https://labeddit-back-jsboz.onrender.com/users';
  - Signup
-    - app.post => 'http://localhost:3003/users/signup';
+    - app.post => 'https://labeddit-back-jsboz.onrender.com/users/signup';
  - Login
-    - app.post => 'http://localhost:3003/users/login'.
+    - app.post => 'https://labeddit-back-jsboz.onrender.com/users/login'.
 
 2. Endpoints for the posts table:
  - Create post
-    - app.post => 'http://localhost:3003/posts';
+    - app.post => 'https://labeddit-back-jsboz.onrender.com/posts';
  - Get all posts
-    - app.get => 'http://localhost:3003/posts';
+    - app.get => 'https://labeddit-back-jsboz.onrender.com/posts';
  - Edit post by id
-    - app.put =>'http://localhost:3003/posts/:id';
+    - app.put =>'https://labeddit-back-jsboz.onrender.com/posts/:id';
  - Delete post by id
-    - app.delete => 'http://localhost:3003/posts/:id';
+    - app.delete => 'https://labeddit-back-jsboz.onrender.com/posts/:id';
  - Like and dislike post by id
-    - app.put => 'http://localhost:3003/posts/:id/like'.
+    - app.put => 'https://labeddit-back-jsboz.onrender.com/posts/:id/like';
+- Comment a post by id
+    -   app.post => 'https://labeddit-back-jsboz.onrender.com/posts/:id/comment'
 
 ## Tecnologies used
 1. TypeScript
