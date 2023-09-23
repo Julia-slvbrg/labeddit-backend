@@ -1,4 +1,4 @@
-# API Labook
+# API Labeddit
 
 ![API-Documentation](./src/assets/documentation.png)
 
