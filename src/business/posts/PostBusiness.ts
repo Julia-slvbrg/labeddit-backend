@@ -104,7 +104,6 @@ export class PostBusiness{
         if(postDB.length == 0){
             throw new NotFoundError('Post not found.')
         };
-        
 
         const result:GetPostsOutputDTO[] = postDB.map((post) => {
             return{

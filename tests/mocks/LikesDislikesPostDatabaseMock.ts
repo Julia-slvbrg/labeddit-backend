@@ -1,7 +1,7 @@
 import { BaseDatabase } from "../../src/database/BaseDatabase";
-import { LikesDislikesDB } from "../../src/models/LikesDislikes";
+import { LikesDislikesPostDB } from "../../src/models/LikesDislikesPost";
 
-export const likesDislikesMock:LikesDislikesDB[] = [
+export const likesDislikesPostMock:LikesDislikesPostDB[] = [
     {
         user_id: 'id-mock-adminUser',
         post_id: 'post001',
@@ -19,14 +19,14 @@ export const likesDislikesMock:LikesDislikesDB[] = [
     }
 ]
 
-export class LikeDislikesDatabaseMock extends BaseDatabase{
+export class LikesDislikesPostDatabaseMock extends BaseDatabase{
     public TABLE_NAME = 'likes_dislikes'
 
-    public async getLike(postId:string, userId:string):Promise<LikesDislikesDB[]>{
-        return likesDislikesMock.filter((likeDislike) => likeDislike.user_id === userId && likeDislike.post_id === postId)
+    public async getLike(postId:string, userId:string):Promise<LikesDislikesPostDB[]>{
+        return likesDislikesPostMock.filter((likeDislike) => likeDislike.user_id === userId && likeDislike.post_id === postId)
     };
 
-    public async createPost(newLikeDislike:LikesDislikesDB):Promise<void>{
+    public async createPost(newLikeDislike:LikesDislikesPostDB):Promise<void>{
 
     };
 

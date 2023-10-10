@@ -1,5 +1,6 @@
 import { BaseDatabase } from "../../src/database/BaseDatabase";
-import { CommentDB } from "../../src/models/Comment";
+import { CommentDB, GetCommentDB } from "../../src/models/Comment";
+import { LikesDislikesCommentCountDB } from "../../src/models/LikesDislikesComments";
 
 const commentsMock: CommentDB[] = [
     {
@@ -39,5 +40,33 @@ export class CommentDatabaseMock extends BaseDatabase{
 
     public async createComment(newComment:CommentDB):Promise<void>{
     
+    };
+
+    public async getCommentById(id:string):Promise<CommentDB>{
+        const [commentDB]:CommentDB[] = await super.findById(id);
+
+        return commentDB
+    };
+
+    public async getCommentsByPostId(id:string):Promise<GetCommentDB[]>{
+        const commentMock = commentsMock.filter((comment) => comment.id === id);
+        const result = commentMock.map((comment) =>( 
+            {
+                id: comment.id,
+                postId: comment.post_id,
+                content: comment.content,
+                likes: comment.likes,
+                dislikes: comment.dislikes,
+                createdAt: comment.created_at,
+                updatedAt: comment.updated_at,
+                creatorId: comment.creator_id,
+                creatorName: comment.creator_id === 'id-mock-normUser'? 'NormUser' : 'AdminUser'
+            }
+        ));
+        return result
+    };
+
+    public async editCommentLikes(commentId:string, newLikeDislikeCount:LikesDislikesCommentCountDB):Promise<void>{
+       
     }
 }

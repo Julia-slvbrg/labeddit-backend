@@ -4,15 +4,17 @@ import { DeletePostSchema } from "../../../src/dtos/posts/deletePost.dto"
 import { BadRequestError } from "../../../src/errors/BadRequestError"
 import { NotFoundError } from "../../../src/errors/NotFoundError"
 import { IdGeneratorMock } from "../../mocks/IdGeneratorMock"
-import { LikeDislikesDatabaseMock } from "../../mocks/LikeDislikesDatabaseMock"
 import { PostDatabaseMock } from "../../mocks/PostDatabaseMock"
 import { TokenManagerMock } from "../../mocks/TokenManagerMock"
 import { CommentDatabaseMock } from "../../mocks/CommentDatabaseMock"
+import { LikesDislikesCommentDatabaseMock } from "../../mocks/LikesDislikesCommentsMock"
+import { LikesDislikesPostDatabaseMock } from "../../mocks/LikesDislikesPostDatabaseMock"
 
 describe('Tests for the DeletePost method', () => {
     const postBusiness = new PostBusiness(
         new PostDatabaseMock(),
-        new LikeDislikesDatabaseMock(),
+        new LikesDislikesPostDatabaseMock(),
+        new LikesDislikesCommentDatabaseMock(),
         new CommentDatabaseMock(),
         new TokenManagerMock(),
         new IdGeneratorMock()

@@ -3,15 +3,17 @@ import { PostBusiness } from "../../../src/business/posts/PostBusiness"
 import { GetPostSchema } from "../../../src/dtos/posts/getPosts.dto"
 import { BadRequestError } from "../../../src/errors/BadRequestError"
 import { IdGeneratorMock } from "../../mocks/IdGeneratorMock"
-import { LikeDislikesDatabaseMock } from "../../mocks/LikeDislikesDatabaseMock"
+import { LikesDislikesPostDatabaseMock } from "../../mocks/LikesDislikesPostDatabaseMock"
 import { PostDatabaseMock } from "../../mocks/PostDatabaseMock"
 import { TokenManagerMock } from "../../mocks/TokenManagerMock"
 import { CommentDatabaseMock } from "../../mocks/CommentDatabaseMock"
+import { LikesDislikesCommentDatabaseMock } from "../../mocks/LikesDislikesCommentsMock"
 
 describe('Tests for the GetPosts method', () => {
     const postBusiness = new PostBusiness(
         new PostDatabaseMock(),
-        new LikeDislikesDatabaseMock(),
+        new LikesDislikesPostDatabaseMock(),
+        new LikesDislikesCommentDatabaseMock(),
         new CommentDatabaseMock(),
         new TokenManagerMock(),
         new IdGeneratorMock()

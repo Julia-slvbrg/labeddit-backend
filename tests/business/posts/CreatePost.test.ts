@@ -3,15 +3,17 @@ import { PostBusiness } from "../../../src/business/posts/PostBusiness";
 import { CreatePostSchema } from "../../../src/dtos/posts/createPost.dto";
 import { BadRequestError } from "../../../src/errors/BadRequestError";
 import { IdGeneratorMock } from "../../mocks/IdGeneratorMock";
-import { LikeDislikesDatabaseMock } from "../../mocks/LikeDislikesDatabaseMock";
 import { PostDatabaseMock } from "../../mocks/PostDatabaseMock";
 import { TokenManagerMock } from "../../mocks/TokenManagerMock";
 import { CommentDatabaseMock } from "../../mocks/CommentDatabaseMock";
+import { LikesDislikesPostDatabaseMock } from "../../mocks/LikesDislikesPostDatabaseMock";
+import { LikesDislikesCommentDatabaseMock } from "../../mocks/LikesDislikesCommentsMock";
 
 describe('Tests for the CreatePost method', () => {
     const postBusiness = new PostBusiness(
         new PostDatabaseMock(),
-        new LikeDislikesDatabaseMock(),
+        new LikesDislikesPostDatabaseMock(),
+        new LikesDislikesCommentDatabaseMock(),
         new CommentDatabaseMock(),
         new TokenManagerMock(),
         new IdGeneratorMock()
