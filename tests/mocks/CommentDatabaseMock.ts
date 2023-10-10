@@ -49,7 +49,7 @@ export class CommentDatabaseMock extends BaseDatabase{
     };
 
     public async getCommentsByPostId(id:string):Promise<GetCommentDB[]>{
-        const commentMock = commentsMock.filter((comment) => comment.id === id);
+        const commentMock = commentsMock.filter((comment) => comment.post_id === id);
         const result = commentMock.map((comment) =>( 
             {
                 id: comment.id,
