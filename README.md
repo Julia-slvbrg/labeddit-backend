@@ -25,6 +25,7 @@ For the posts, the API allows you to create, fetch, edit, delete, like/dislike a
  - [x]  Get all users
  - [x]  Create post
  - [x]  Get all posts 
+ - [x]  Get post by id
  - [x]  Edit post by id
  - [x]  Delete post by id
  - [x]  Like post by id
@@ -69,6 +70,8 @@ $ npm run dev
     - app.post => 'https://labeddit-back-jsboz.onrender.com/posts';
  - Get all posts
     - app.get => 'https://labeddit-back-jsboz.onrender.com/posts';
+ - Get post by id
+    - app.get => 'https://labeddit-back-jsboz.onrender.com/posts/:id';
  - Edit post by id
     - app.put =>'https://labeddit-back-jsboz.onrender.com/posts/:id';
  - Delete post by id

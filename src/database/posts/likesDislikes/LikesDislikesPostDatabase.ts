@@ -1,18 +1,18 @@
-import { LikesDislikes, LikesDislikesDB } from "../../models/LikesDislikes";
-import { BaseDatabase } from "../BaseDatabase";
+import { LikesDislikesPostDB } from "../../../models/LikesDislikesPost";
+import { BaseDatabase } from "../../BaseDatabase";
 
-export class LikesDislikesDatabase extends BaseDatabase{
+export class LikesDislikesPostDatabase extends BaseDatabase{
     TABLE_NAME = 'likes_dislikes'
 
-    public async getLike(postId:string, userId:string):Promise<LikesDislikesDB[]>{
-        const result:LikesDislikesDB[] = await BaseDatabase.connection(this.TABLE_NAME)
+    public async getLike(postId:string, userId:string):Promise<LikesDislikesPostDB[]>{
+        const result:LikesDislikesPostDB[] = await BaseDatabase.connection(this.TABLE_NAME)
             .where({user_id: userId})
             .andWhere({post_id: postId})
         
         return result
     };
 
-    public async createPost(newLikeDislike:LikesDislikesDB):Promise<void>{
+    public async createPost(newLikeDislike:LikesDislikesPostDB):Promise<void>{
         await BaseDatabase.connection(this.TABLE_NAME)
             .insert(newLikeDislike)
     };
