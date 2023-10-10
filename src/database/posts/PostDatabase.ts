@@ -1,4 +1,4 @@
-import { LikesDislikesCountDB } from "../../models/LikesDislikes";
+import { LikesDislikesPostCountDB } from "../../models/LikesDislikesPost";
 import { GetPostDB, PostDB } from "../../models/Post";
 import { BaseDatabase } from "../BaseDatabase";
 
@@ -33,6 +33,25 @@ export class PostDatabase extends BaseDatabase {
         
         return postDB
     };
+    
+    public async getPostDataById(id:string):Promise<GetPostDB[]>{
+        const result:GetPostDB[] = await BaseDatabase.connection(this.TABLE_NAME)
+            .select(
+                'posts.id',
+                'posts.content',
+                'posts.likes',
+                'posts.dislikes',
+                'posts.comments',
+                'posts.created_at as createdAt',
+                'posts.updated_at as updatedAt',
+                'posts.creator_id as creatorId',
+                'users.name as creatorName'
+            )
+            .innerJoin('users', 'users.id', '=', 'posts.creator_id')
+            .where('posts.id', '=', id);
+         
+        return result
+    }; 
 
     public async updatePost(editedPost:PostDB):Promise<void>{
         await BaseDatabase.connection(this.TABLE_NAME)
@@ -47,7 +66,7 @@ export class PostDatabase extends BaseDatabase {
             .where({id})
     };
 
-    public async editPostLikes(postId:string, newLikeDislikeCount:LikesDislikesCountDB):Promise<void>{
+    public async editPostLikes(postId:string, newLikeDislikeCount:LikesDislikesPostCountDB):Promise<void>{
         await BaseDatabase.connection(this.TABLE_NAME)
             .update(
                 {

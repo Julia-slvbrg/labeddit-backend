@@ -1,4 +1,4 @@
-export class LikesDislikes{
+export class LikesDislikesPost{
     constructor(
         private userId: string,
         private postId: string,
@@ -27,13 +27,13 @@ export class LikesDislikes{
     }
 };
 
-export interface LikesDislikesDB{
+export interface LikesDislikesPostDB{
     user_id: string,
     post_id: string,
     like: number
 };
 
-export interface LikesDislikesCountDB{
+export interface LikesDislikesPostCountDB{
     newLikeCount: number,
     newDislikeCount: number
 }

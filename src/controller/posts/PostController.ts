@@ -8,6 +8,9 @@ import { UpdatePostSchema } from "../../dtos/posts/updatePost.dto";
 import { DeletePostSchema } from "../../dtos/posts/deletePost.dto";
 import { LikeDislikeSchema } from "../../dtos/posts/likeDislikePost.dto";
 import { CreateCommentSchema } from "../../dtos/comments/CreateComment.dto";
+import { GetPostByIdSchema } from "../../dtos/posts/getPostById.dto";
+import { GetCommentsByPostIdSchema } from "../../dtos/comments/getCommentsByPostId.dto";
+import { LikeDislikeCommentSchema } from "../../dtos/comments/likeDislikeComment.dto";
 
 export class PostController{
     constructor(
@@ -58,6 +61,29 @@ export class PostController{
             }
         }
     };
+
+    public GetPostById = async (req: Request, res: Response) => {
+        try {
+            const input = GetPostByIdSchema.parse({
+                token: req.headers.authorization,
+                id: req.params.id
+            });
+
+            const output = await this.postBusiness.getPostById(input);
+
+            res.status(200).send(output)
+        } catch (error) {
+            console.log(error);
+
+            if(error instanceof ZodError){
+                res.status(400).send(error.issues)
+            }else if(error instanceof BaseError){
+                res.status(error.statusCode).send(error.message)
+            }else{
+                res.status(500).send('Unexpected error.')
+            }
+        }
+    }
 
     public updatePost = async (req: Request, res: Response) => {
         try {
@@ -141,6 +167,54 @@ export class PostController{
             const output = await this.postBusiness.createComment(input);
 
             res.status(200).send(output)
+        } catch (error) {
+            console.log(error);
+
+            if(error instanceof ZodError){
+                res.status(400).send(error.issues)
+            }else if(error instanceof BaseError){
+                res.status(error.statusCode).send(error.message)
+            }else{
+                res.status(500).send('Unexpected error.')
+            }
+        }
+    };
+
+    public getCommentsByPostId = async (req: Request, res: Response) => {
+        try {
+            const input = GetCommentsByPostIdSchema.parse({
+                token: req.headers.authorization,
+                id: req.params.id
+            });
+
+            const output = await this.postBusiness.getCommentsByPostId(input);
+
+            res.status(200).send(output)
+        } catch (error) {
+            console.log(error);
+
+            if(error instanceof ZodError){
+                res.status(400).send(error.issues)
+            }else if(error instanceof BaseError){
+                res.status(error.statusCode).send(error.message)
+            }else{
+                res.status(500).send('Unexpected error.')
+            }
+        }
+    };
+
+    public likeDislikeComment = async (req: Request, res: Response) => {
+        try {
+            const input = LikeDislikeCommentSchema.parse({
+                idPost: req.params.idPost,
+                idComment: req.params.idComment,
+                like: req.body.like,
+                token: req.headers.authorization
+            });
+
+            const output = await this.postBusiness.likeDislikeComment(input);
+
+            res.status(200).send()
         } catch (error) {
             console.log(error);
 

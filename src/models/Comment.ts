@@ -70,4 +70,16 @@ export interface CommentDB{
     dislikes: number,
     created_at: string,
     updated_at: string
+};
+
+export interface GetCommentDB{
+    id: string,
+    postId: string,
+    content: string,
+    likes: number,
+    dislikes: number,
+    createdAt: string,
+    updatedAt: string,
+    creatorId: string,
+    creatorName: string
 }
