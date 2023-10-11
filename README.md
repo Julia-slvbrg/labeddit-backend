@@ -79,11 +79,15 @@ $ npm run dev
  - Delete post by id
     - app.delete => 'https://labeddit-back-jsboz.onrender.com/posts/:id';
  - Like and dislike post by id
-    - app.put => 'https://labeddit-back-jsboz.onrender.com/posts/:id/like';
+    - app.put => 'https://labeddit-back-jsboz.onrender.com/posts/:id/like'
+
+3. Endpoints for the comments table:
  - Comment a post by id
-    -   app.post => 'https://labeddit-back-jsboz.onrender.com/posts/:id/comment';
+    - app.post => 'https://labeddit-back-jsboz.onrender.com/posts/:id/comment';
  - Like and dislike comment by id
     - app.put => 'https://labeddit-back-jsboz.onrender.com/posts/:idPost/comments/:idComment/like';
+ - Get comments on a post by the post's id
+    - app.get => 'https://labeddit-back-jsboz.onrender.com/posts/:id/comments'
 
 ## Tecnologies used
 1. TypeScript
