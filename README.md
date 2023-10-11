@@ -31,6 +31,8 @@ For the posts, the API allows you to create, fetch, edit, delete, like/dislike a
  - [x]  Like post by id
  - [x]  Dislike post by id
  - [x]  Comment post by id
+ - [x]  Like comment by id
+ - [x]  Dislike comment by id
   
 ## Demonstration
 
@@ -79,7 +81,9 @@ $ npm run dev
  - Like and dislike post by id
     - app.put => 'https://labeddit-back-jsboz.onrender.com/posts/:id/like';
  - Comment a post by id
-    -   app.post => 'https://labeddit-back-jsboz.onrender.com/posts/:id/comment'
+    -   app.post => 'https://labeddit-back-jsboz.onrender.com/posts/:id/comment';
+ - Like and dislike comment by id
+    - app.put => 'https://labeddit-back-jsboz.onrender.com/posts/:idPost/comments/:idComment/like';
 
 ## Tecnologies used
 1. TypeScript
@@ -100,4 +104,6 @@ $ npm run dev
 ## Next steps
  -[ ] Expand the database
 
- -[ ] Create endpoints to fetch, edit, like/dislike and delete comments
+ -[ ] Create endpoints to edit and delete comments
+
+ -[ ] Improve the data been rendered on the frontend to better the user experience
