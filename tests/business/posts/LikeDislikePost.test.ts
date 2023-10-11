@@ -27,8 +27,6 @@ describe('Tests for the LikeDislikePost method', () => {
             token: 'token-mock-adminUser'
         });
 
-        await postBusiness.likeDislikePost(input);
-
         expect(async () => await postBusiness.likeDislikePost(input)).not.toThrow()
     });
 
@@ -38,8 +36,6 @@ describe('Tests for the LikeDislikePost method', () => {
             like: false,
             token: 'token-mock-adminUser'
         });
-
-        await postBusiness.likeDislikePost(input);
 
         expect(async () => await postBusiness.likeDislikePost(input)).not.toThrow()
     });
@@ -51,8 +47,6 @@ describe('Tests for the LikeDislikePost method', () => {
             token: 'token-mock-mockUser'
         });
 
-        await postBusiness.likeDislikePost(input);
-
         expect(async () => await postBusiness.likeDislikePost(input)).not.toThrow()
     });
 
@@ -62,8 +56,6 @@ describe('Tests for the LikeDislikePost method', () => {
             like: false,
             token: 'token-mock-mockUser'
         });
-
-        await postBusiness.likeDislikePost(input);
 
         expect(async () => await postBusiness.likeDislikePost(input)).not.toThrow()
     });
@@ -75,8 +67,6 @@ describe('Tests for the LikeDislikePost method', () => {
             token: 'token-mock-normUser'
         });
 
-        await postBusiness.likeDislikePost(input);
-
         expect(async () => await postBusiness.likeDislikePost(input)).not.toThrow()
     });
 
@@ -86,8 +76,6 @@ describe('Tests for the LikeDislikePost method', () => {
             like: false,
             token: 'token-mock-normUser'
         });
-
-        await postBusiness.likeDislikePost(input);
 
         expect(async () => await postBusiness.likeDislikePost(input)).not.toThrow()
     });

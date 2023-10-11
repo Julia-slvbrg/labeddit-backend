@@ -42,14 +42,12 @@ export class CommentDatabaseMock extends BaseDatabase{
     
     };
 
-    public async getCommentById(id:string):Promise<CommentDB>{
-        const [commentDB]:CommentDB[] = await super.findById(id);
-
-        return commentDB
+    public async getCommentById(commentId:string):Promise<CommentDB>{
+        return commentsMock.filter((comment) => comment.id == commentId)[0]
     };
 
-    public async getCommentsByPostId(id:string):Promise<GetCommentDB[]>{
-        const commentMock = commentsMock.filter((comment) => comment.post_id === id);
+    public async getCommentsByPostId(commentId:string):Promise<GetCommentDB[]>{
+        const commentMock = commentsMock.filter((comment) => comment.post_id === commentId);
         const result = commentMock.map((comment) =>( 
             {
                 id: comment.id,

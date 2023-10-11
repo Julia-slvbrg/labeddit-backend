@@ -4,17 +4,17 @@ import { LikesDislikesCommentDB } from "../../src/models/LikesDislikesComments"
 export const LikesDislikesCommentMock:LikesDislikesCommentDB[] = [
     {
         user_id: 'id-mock-adminUser',
-        comment_id: 'com001',
+        comment_id: 'comment001',
         like: 1
     },
     {
         user_id: 'id-mock-adminUser',
-        comment_id: 'com003',
+        comment_id: 'comment003',
         like: 0
     },
     {
         user_id: 'id-mock-normUser',
-        comment_id: 'com003',
+        comment_id: 'comment003',
         like: 0
     }
 ]

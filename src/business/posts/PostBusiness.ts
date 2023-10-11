@@ -404,7 +404,7 @@ export class PostBusiness{
             throw new NotFoundError('Post not found.')
         };
 
-        const checkCommentDB:CommentDB = await this.commentDatabase.getCommentById(idComment);
+        const checkCommentDB:CommentDB = await this.commentDatabase.getCommentById(idComment);       
 
         if(!checkCommentDB){
             throw new NotFoundError('Comment not found.')
@@ -427,7 +427,7 @@ export class PostBusiness{
         const [checkLikeDislike] = await this.likesDislikesCommentDatabase.getLike(idComment, payload.id);
 
         if(!checkLikeDislike){
-
+            
             const newLikeDislike = new LikesDislikesComment(
                 payload.id,
                 idComment,
@@ -450,10 +450,10 @@ export class PostBusiness{
             payload.id,
             idComment,
             like? 1 : 0
-        ); //CONTINUAR A PARTIR DAQUI
+        ); 
 
         if(checkLikeDislike.like === 1 && like){ 
-
+                        
             await this.likesDislikesCommentDatabase.deleteComment(likeDislikeDB.getCommentId(), likeDislikeDB.getUserId());
 
             const newLikeDislikeCount:LikesDislikesCommentCountDB = {
@@ -481,7 +481,7 @@ export class PostBusiness{
         };
 
         if(checkLikeDislike.like === 0 && like){
-
+            
             await this.likesDislikesCommentDatabase.editLikes(likeDislikeDB.getCommentId(), likeDislikeDB.getUserId(), likeDislikeDB.getLike());
 
             const newLikeDislikeCount:LikesDislikesCommentCountDB = {
