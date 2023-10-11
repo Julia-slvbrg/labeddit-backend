@@ -4,15 +4,17 @@ import { LikeDislikeSchema } from "../../../src/dtos/posts/likeDislikePost.dto"
 import { BadRequestError } from "../../../src/errors/BadRequestError"
 import { NotFoundError } from "../../../src/errors/NotFoundError"
 import { IdGeneratorMock } from "../../mocks/IdGeneratorMock"
-import { LikeDislikesDatabaseMock } from "../../mocks/LikeDislikesDatabaseMock"
 import { PostDatabaseMock } from "../../mocks/PostDatabaseMock"
 import { TokenManagerMock } from "../../mocks/TokenManagerMock"
 import { CommentDatabaseMock } from "../../mocks/CommentDatabaseMock"
+import { LikesDislikesPostDatabaseMock } from "../../mocks/LikesDislikesPostDatabaseMock"
+import { LikesDislikesCommentDatabaseMock } from "../../mocks/LikesDislikesCommentsMock"
 
 describe('Tests for the LikeDislikePost method', () => {
     const postBusiness = new PostBusiness(
         new PostDatabaseMock(),
-        new LikeDislikesDatabaseMock(),
+        new LikesDislikesPostDatabaseMock(),
+        new LikesDislikesCommentDatabaseMock(),
         new CommentDatabaseMock(),
         new TokenManagerMock(),
         new IdGeneratorMock()
@@ -25,8 +27,6 @@ describe('Tests for the LikeDislikePost method', () => {
             token: 'token-mock-adminUser'
         });
 
-        await postBusiness.likeDislikePost(input);
-
         expect(async () => await postBusiness.likeDislikePost(input)).not.toThrow()
     });
 
@@ -36,8 +36,6 @@ describe('Tests for the LikeDislikePost method', () => {
             like: false,
             token: 'token-mock-adminUser'
         });
-
-        await postBusiness.likeDislikePost(input);
 
         expect(async () => await postBusiness.likeDislikePost(input)).not.toThrow()
     });
@@ -49,8 +47,6 @@ describe('Tests for the LikeDislikePost method', () => {
             token: 'token-mock-mockUser'
         });
 
-        await postBusiness.likeDislikePost(input);
-
         expect(async () => await postBusiness.likeDislikePost(input)).not.toThrow()
     });
 
@@ -60,8 +56,6 @@ describe('Tests for the LikeDislikePost method', () => {
             like: false,
             token: 'token-mock-mockUser'
         });
-
-        await postBusiness.likeDislikePost(input);
 
         expect(async () => await postBusiness.likeDislikePost(input)).not.toThrow()
     });
@@ -73,8 +67,6 @@ describe('Tests for the LikeDislikePost method', () => {
             token: 'token-mock-normUser'
         });
 
-        await postBusiness.likeDislikePost(input);
-
         expect(async () => await postBusiness.likeDislikePost(input)).not.toThrow()
     });
 
@@ -84,8 +76,6 @@ describe('Tests for the LikeDislikePost method', () => {
             like: false,
             token: 'token-mock-normUser'
         });
-
-        await postBusiness.likeDislikePost(input);
 
         expect(async () => await postBusiness.likeDislikePost(input)).not.toThrow()
     });

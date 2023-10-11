@@ -10,9 +10,8 @@ export class CommentDatabase extends BaseDatabase {
             .insert(newComment)
     };
 
-    public async getCommentById(id:string):Promise<CommentDB>{
-        const [commentDB]:CommentDB[] = await super.findById(id);
-
+    public async getCommentById(commentId:string):Promise<CommentDB>{
+        const [commentDB]:CommentDB[] = await super.findById(commentId);
         return commentDB
     };
 

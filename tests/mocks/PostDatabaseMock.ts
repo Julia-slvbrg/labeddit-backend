@@ -1,6 +1,6 @@
 import { BaseDatabase } from "../../src/database/BaseDatabase";
 import { GetPostDB, PostDB } from "../../src/models/Post";
-import { LikesDislikesCountDB } from "../../src/models/LikesDislikes";
+import { LikesDislikesPostCountDB } from "../../src/models/LikesDislikesPost";
 import { CommentDB } from "../../src/models/Comment";
 
 const postsMock: PostDB[] = [
@@ -64,6 +64,24 @@ export class PostDatabaseMock extends BaseDatabase{
         return postsMock.filter((post) => post.id === id)[0]
     };
 
+    public async getPostDataById(id:string):Promise<GetPostDB[]>{
+        const postMock = postsMock.filter((post) => post.id === id);
+        const result = postMock.map((post) =>( 
+            {
+                id: post.id,
+                content: post.content,
+                likes: post.likes,
+                dislikes: post.dislikes,
+                comments: post.comments,
+                createdAt: post.created_at,
+                updatedAt: post.updated_at,
+                creatorId: post.creator_id,
+                creatorName: post.creator_id === 'id-mock-normUser'? 'NormUser' : 'AdminUser'
+            }
+        ));
+        return result
+    }; 
+
     public async updatePost(editedPost:PostDB):Promise<void>{
         
     };
@@ -72,7 +90,7 @@ export class PostDatabaseMock extends BaseDatabase{
 
     };
 
-    public async editPostLikes(postId:string, newLikeDislikeCount:LikesDislikesCountDB):Promise<void>{
+    public async editPostLikes(postId:string, newLikeDislikeCount:LikesDislikesPostCountDB):Promise<void>{
 
     };
 
