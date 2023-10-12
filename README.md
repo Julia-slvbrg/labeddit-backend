@@ -10,6 +10,8 @@ For the posts, the API allows you to create, fetch, edit, delete, like/dislike a
 
 [View the documentation](https://documenter.getpostman.com/view/26594436/2s9YCBvVjy)
 
+The repository for the frontend part of the apllication can be found through the [link](https://github.com/Julia-slvbrg/labeddit-frontend).
+
 ## Index
 - <a href="#functionalities">Application functionalities</a>
 - <a href="#demonstration">Demonstration</a>
